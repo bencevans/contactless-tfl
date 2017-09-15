@@ -8,11 +8,16 @@ module.exports = async function TFL(login, password) {
     .goto('https://contactless.tfl.gov.uk')
     .wait('footer')
     .evaluate(() => {
-        return document.querySelectorAll('#startpage-login-username').length === 0;
+      const NativePromise = fetch().catch(_=>_).constructor;
+      return new NativePromise((resolve, reject) => {
+        resolve(document.querySelectorAll('#startpage-login-username').length === 0);
+      })
     });
 
   if (isLoggedIn === false) {
     await chromeless
+    .goto('https://contactless.tfl.gov.uk')
+    .wait('footer')
     .type(login, '#startpage-login-username')
     .type(password, '#startpage-login-password')
     .click('#startpage-login-submit')
@@ -21,7 +26,10 @@ module.exports = async function TFL(login, password) {
   await chromeless.wait('#dashboard-todaystravel-container');
 
   const body = await chromeless.evaluate(() => {
-    return document.body.innerHTML
+    const NativePromise = fetch().catch(_=>_).constructor;
+    return new NativePromise((resolve, reject) => {
+      resolve(document.body.innerHTML)
+    })
   });
 
   const $ = Cheerio.load(body);
