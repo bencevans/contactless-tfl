@@ -1,6 +1,6 @@
 # contactless-tfl
 
-> Retrieve account balanced from TFL's contactless/oyster site.
+> Retrieve account balances from TFL's Contactless/Oyster site.
 
 ## Install
 
